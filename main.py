@@ -1,12 +1,24 @@
-# main.py
 import speech_recognition as sr
 from speech_engine import speak
 from commands import processCommand
 
-if __name__ == "__main__":
-    recognizer = sr.Recognizer()
-    speak("Initializing Jarvis...")
+recognizer = sr.Recognizer()
 
+def handle_voice_command():
+    try:
+        with sr.Microphone() as source:
+            audio = recognizer.listen(source)
+        command = recognizer.recognize_google(audio)
+        response = processCommand(command)  # should return a string
+        speak(response)
+        return command, response
+    except Exception as e:
+        return "Error", str(e)
+    
+
+if __name__ == "__main__":
+    speak("Initializing Jarvis...")
+    speak("How can I assist you today?")
     while True:
         print("Listening for wake word...")
         try:

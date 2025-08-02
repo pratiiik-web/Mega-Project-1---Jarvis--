@@ -1,18 +1,16 @@
 # speech_engine.py
-from gtts import gTTS
-import pygame
-import os
+
+import pyttsx3
+
+engine = pyttsx3.init()
+engine.setProperty('rate', 170)  # speed of speech
+engine.setProperty('volume', 1)  # 0.0 to 1.0
+
+# Optional: change voice (e.g., to female)
+voices = engine.getProperty('voices')
+engine.setProperty('voice', voices[0].id)  # 0 = male, 1 = female (depends on OS)
 
 def speak(text):
-    tts = gTTS(text)
-    tts.save('temp.mp3') 
-
-    pygame.mixer.init()
-    pygame.mixer.music.load('temp.mp3')
-    pygame.mixer.music.play()
-
-    while pygame.mixer.music.get_busy():
-        pygame.time.Clock().tick(10)
-
-    pygame.mixer.music.unload()
-    os.remove("temp.mp3")
+    print("Jarvis:", text)  # also print it in console for debugging
+    engine.say(text)
+    engine.runAndWait()
