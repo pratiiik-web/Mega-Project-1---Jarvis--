@@ -1,37 +1,29 @@
-import speech_recognition as sr
-from speech_engine import speak
-from commands import processCommand
+# main.py
 
-recognizer = sr.Recognizer()
+from commands import processCommand
+from speech_engine import take_command, speak
+import speech_recognition as sr
 
 def handle_voice_command():
+    recognizer = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Listening for voice command...")
+        audio = recognizer.listen(source)
+
     try:
-        with sr.Microphone() as source:
-            audio = recognizer.listen(source)
         command = recognizer.recognize_google(audio)
-        response = processCommand(command)  # should return a string
-        speak(response)
+        print("You said:", command)
+        response = processCommand(command)
         return command, response
     except Exception as e:
-        return "Error", str(e)
-    
+        print("Voice recognition failed:", e)
+        return "Voice recognition failed", "Sorry, I couldn't understand."
 
-if __name__ == "__main__":
-    speak("Initializing Jarvis...")
-    speak("How can I assist you today?")
-    while True:
-        print("Listening for wake word...")
-        try:
-            with sr.Microphone() as source:
-                audio = recognizer.listen(source, timeout=2, phrase_time_limit=1)
-            wake_word = recognizer.recognize_google(audio)
-
-            if wake_word.lower() == "jarvis":
-                speak("Yes?")
-                with sr.Microphone() as source:
-                    audio = recognizer.listen(source)
-                    command = recognizer.recognize_google(audio)
-                    processCommand(command)
-
-        except Exception as e:
-            print("Error:", e)
+def handle_text_command(text):
+    try:
+        print("Processing text command:", text)
+        response = processCommand(text)
+        return response
+    except Exception as e:
+        print("Text command error:", e)
+        return "Something went wrong while processing your request."
