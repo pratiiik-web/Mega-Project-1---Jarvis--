@@ -14,7 +14,7 @@ class JarvisGUI:
 
         # Header
         self.header = tk.Label(root, text="Jarvis - Your Personal AI Assistant",
-                               font=("Segoe UI", 16, "bold"), bg="#121212", fg="#00e6e6")
+                               font=("Segoe UI", 30, "bold"), bg="#121212", fg="#00e6e6")
         self.header.pack(pady=10)
 
         # Status Indicator
