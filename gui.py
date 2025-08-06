@@ -110,7 +110,7 @@ class JarvisGUI:
 
     def process_manual_input(self):
         user_input = self.manual_entry.get()
-        self.manual_entry.delete(0, tk.END)  # 🧽 Clear the entry field right away
+        self.manual_entry.delete(0, tk.END)  #  Clear the entry field right away
         if user_input.strip() == "":
             return
         self.insert_text("You", user_input, delay_typing=False)
